@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CyberSecurityBaseProjectApplication {
 
     public static void main(String[] args) throws Throwable {
+        System.setProperty("server.context-path", "/");
         SpringApplication.run(CyberSecurityBaseProjectApplication.class);
     }
 }

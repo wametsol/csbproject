@@ -20,10 +20,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        
+        http.csrf().disable();
+        
         // no real security at the moment
         http.authorizeRequests()
-                .anyRequest().permitAll();
+                .antMatchers("/register").permitAll()
+                .antMatchers("/superSecret123form").hasAuthority("ALLOWED") 
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll().and().logout().permitAll()
+                ;
+        
     }
+    
+    
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,3 +45,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 }
+
+

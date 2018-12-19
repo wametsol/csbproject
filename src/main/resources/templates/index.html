@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Super secure app</title>
+     
+    </head>
+    <body>
+        <p>This button is for test purposes only, and you can clear all messages and signups(except Ted's) <a href="/clearAllsignups"><button>Clear all</button></a></p>
+        <h3>Hello <span th:text="${user}"></span> !</h3>
+        <a href="/logout"><button>Logout</button></a>
+        
+        <a href="/password"><button>Change Password</button></a>
+        <p>If you have the required authority you can click here to signup for the secret event: <span th:if="${authlevel > 1}"><a  href="/superSecret123form"><button>Signup for the event</button></a></span>  </p>
+        
+        <p>Your authority level (2 needed to sign up):  <b th:text="${authlevel}"></b></p>
+        <p>Who have already signed for the event: </p>
+        <ul>
+            <li th:each="signup : ${signedup}">
+                <span th:utext="${signup}"></span>
+            </li>
+        </ul>
+        
+        <h1>You leave messages here.</h1>
+        <form action="#" th:action="@{/addmessage}" method="POST">
+            <p><label for="message">Name</label>: <input type="text" name="message" id="message"/></p>
+            <p><input type="submit" value="Submit" /></p>            
+        </form>
+        <p>All messages:</p>
+        <ul>
+            
+            <li th:each="message : ${messages}">
+                <span th:utext="${message}"></span>
+            </li>
+        </ul>
+        
+        <h1>You can search here.</h1>
+        <form action="#" th:action="@{/searchSignup}" method="POST">
+            <p><label for="search">Name</label>: <input type="text" name="search" id="search"/></p>
+            <p><input type="submit" value="Submit" /></p>            
+        </form>
+        <p>Search results: </p>
+        <ul>
+            
+            <li th:each="sgn : ${search}">
+                <span th:utext="${sgn}"></span>
+            </li>
+        </ul>
+        
+        
+        
+        
+        
+    </body>
+</html>
