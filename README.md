@@ -29,7 +29,8 @@ When logged in with ted and with another user you have created, you can see that
 
 Fixing it: There are 2 ways to fix this. First, a bit clumsy way, would be to add the same authority check on the form. This wouldn’t prevent http requests on the page though = still vulnerable.
 So adding 
-.antMatchers("/superSecret123form").hasAuthority("ALLOWED") to the security configuration file will allow ted to see the form, as he has the required authority, but other newly created accounts doesn’t have it yet, so it will be visible to ted only.
+.antMatchers("/superSecret123form").hasAuthority("ALLOWED")
+to the security configuration file will allow ted to see the form, as he has the required authority, but other newly created accounts doesn’t have it yet, so it will be visible to ted only.
 
 
 ## 4.	A6 Security Misconfiguration / A9 Using Components with Known Vulnerabilities
@@ -41,10 +42,13 @@ Fixing it: Access control for admins is something to start with. Removing unnece
 
 When logged in as Ted, you can see the Signup for the event button, which takes you to the signup page. Ted has already signed for the event, but you can sign again. 
 The form is not done properly, and you can insert code there.
-For example, you can try with “name”: “  <span>TestName<script>alert(123);</script></span>“ and address: “TestAddress 123” .  
+For example, you can try with
+“name”: “  <span>TestName<script>alert(123);</script></span>“
+and address: “TestAddress 123” .  
 Another fun to test is this one (<script>window.location.replace("/password/123");</script>).
 As the site has currently really bad way to change current user’s password: simply by sending a POST request to /password/{newpassword}.
 (This will end in an endless loop, as the password change redirects back to index and the script redirects to the password change. Click the clear all button to end it :D)
+
 After going back to index, you will see the alert window. This can be exploited in many ways. As these signups are visible to every user, you can log in with another account and the same script will run. The message system is also exploitable, and is done as poorly.
 This vulnerability can be tested with Owasp ZAP as well. If you want to do so; after opening the app, start attack on the POST request of http://localhost:8080/superSecret123form.
 After the scan, you can see under the Alerts tab that “Cross Site Scripting” is listed there.
